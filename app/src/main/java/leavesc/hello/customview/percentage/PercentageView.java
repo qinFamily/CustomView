@@ -19,7 +19,7 @@ public class PercentageView extends View {
 
     private static final String TAG = "PercentageView";
 
-    private static final int[] COLORS = {0xff008577, 0xff57ef75, 0xffD81B60, 0xff5452ec, 0xff38caf2, 0xfff47945, 0xfff48c58};
+    private static final int[] COLORS = {0xff2f7e76, 0xff1ff749, 0xfff42872, 0xff4643f4, 0xe51581da, 0xff8527e4, 0xfff1b00d, 0xff26020f};
 
     private static final int DEFAULT_SIZE = 400;
 

@@ -6,30 +6,29 @@
     android:orientation="vertical"
     tools:context=".percentage.PercentageViewActivity">
 
-    <LinearLayout
+    <leavesc.hello.customview.percentage.PercentageView
+        android:id="@+id/percentageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <leavesc.hello.customview.percentage.PercentageView
-            android:id="@+id/percentageView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#abc" />
-
-        <TextView
-            android:id="@+id/tvTest"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="1" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.AppCompatSeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:onClick="addData"
+        android:text="添加数据" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:onClick="removeData"
+        android:text="移除数据" />
 
 </LinearLayout>
