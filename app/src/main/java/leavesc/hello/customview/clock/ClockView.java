@@ -1,4 +1,4 @@
-package leavesc.hello.customview;
+package leavesc.hello.customview.clock;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.TimeZone;
+
+import leavesc.hello.customview.R;
 
 /**
  * 作者：leavesC
