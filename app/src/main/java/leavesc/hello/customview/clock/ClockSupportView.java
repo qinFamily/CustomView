@@ -26,17 +26,18 @@ public class ClockSupportView extends View {
 
     public ClockSupportView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initPaint();
+        initClockPaint();
+        initTextPaint();
     }
 
-    private Paint paint;
+    private Paint clockPaint;
 
-    private void initPaint() {
-        paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setAntiAlias(true);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(stockWidth);
+    private void initClockPaint() {
+        clockPaint = new Paint();
+        clockPaint.setColor(Color.BLACK);
+        clockPaint.setAntiAlias(true);
+        clockPaint.setStyle(Paint.Style.STROKE);
+        clockPaint.setStrokeWidth(stockWidth);
     }
 
     private int stockWidth = 10;
@@ -70,6 +71,16 @@ public class ClockSupportView extends View {
 
     private float minute = 50;
 
+    private Paint textPaint;
+
+    private void initTextPaint() {
+        textPaint = new Paint();
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setAntiAlias(true);
+        textPaint.setStrokeWidth(12);
+        textPaint.setTextSize(34);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         //中心点的横纵坐标
@@ -80,23 +91,35 @@ public class ClockSupportView extends View {
         int radiusIn = radiusOut - padding;
 
         canvas.translate(point, point);
+
         canvas.rotate(-90);
-        canvas.drawCircle(0, 0, radiusOut, paint);
-        canvas.drawCircle(0, 0, radiusIn, paint);
+        canvas.drawCircle(0, 0, radiusOut, clockPaint);
+        canvas.drawCircle(0, 0, radiusIn, clockPaint);
 
         canvas.save();
 
+//        canvas.rotate(90);
         float degrees = 6;
         for (int i = 0; i <= 360; i += degrees) {
             if (i % 30 == 0) {
-                paint.setStrokeWidth(stockWidth * 1.3f);
-                canvas.drawLine(0, radiusIn, 0, radiusIn - 30, paint);
+                clockPaint.setStrokeWidth(stockWidth * 1.3f);
+                canvas.drawLine(0, radiusIn, 0, radiusIn - 30, clockPaint);
+//                if (i != 0) {
+//                    canvas.drawText(String.valueOf(i / 30), radiusIn - 90, 0, textPaint);
+//                }
             } else {
-                paint.setStrokeWidth(stockWidth / 1.7f);
-                canvas.drawLine(0, radiusIn, 0, radiusIn - 15, paint);
+                clockPaint.setStrokeWidth(stockWidth / 1.7f);
+                canvas.drawLine(0, radiusIn, 0, radiusIn - 15, clockPaint);
             }
             canvas.rotate(degrees);
         }
+
+//        canvas.rotate(90);
+//        for (int i = 0; i <= 360; i += 30) {
+//            canvas.drawText(String.valueOf(i / 30), radiusIn - 90, 0, textPaint);
+//            canvas.rotate(30);
+//        }
+
         canvas.restore();
 
         float perHour = hour / 12.0f;
@@ -104,12 +127,12 @@ public class ClockSupportView extends View {
 
         canvas.save();
         canvas.rotate(perHour * 360.0f);
-        canvas.drawLine(0, 0, radiusIn / 2, 0, paint);
+        canvas.drawLine(0, 0, radiusIn / 2, 0, clockPaint);
         canvas.restore();
 
         canvas.save();
         canvas.rotate(perMinute * 360.0f);
-        canvas.drawLine(0, 0, radiusIn * 0.75f, 0, paint);
+        canvas.drawLine(0, 0, radiusIn * 0.75f, 0, clockPaint);
         canvas.restore();
     }
 
