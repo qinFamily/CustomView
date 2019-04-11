@@ -85,7 +85,7 @@ public class ClockSupportView extends View {
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setAntiAlias(true);
         textPaint.setStrokeWidth(12);
-        textPaint.setTextSize(34);
+        textPaint.setTextSize(textSize);
     }
 
     @Override
@@ -135,6 +135,8 @@ public class ClockSupportView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        onTimeChanged();
+
         //中心点的横纵坐标
         int point = getWidth() / 2;
         //外圆的半径
@@ -177,6 +179,7 @@ public class ClockSupportView extends View {
 
         float perHour = hour / 12.0f;
         float perMinute = minute / 60.0f;
+        float perSecond = second / 60.0f;
 
         canvas.save();
         canvas.rotate(perHour * 360.0f);
@@ -185,14 +188,43 @@ public class ClockSupportView extends View {
 
         canvas.save();
         canvas.rotate(perMinute * 360.0f);
-        canvas.drawLine(-30, 0, radiusOut * 0.75f, 0, clockPaint);
+        canvas.drawLine(-30, 0, radiusOut * 0.7f, 0, clockPaint);
+        canvas.restore();
+
+        clockPaint.setColor(Color.RED);
+
+        canvas.save();
+        canvas.rotate(perSecond * 360.0f);
+        canvas.drawLine(-30, 0, radiusOut * 0.85f, 0, clockPaint);
         canvas.restore();
 
         clockPaint.setStyle(Paint.Style.FILL);
         clockPaint.setColor(clockCenterColor);
         canvas.drawCircle(0, 0, 10, clockPaint);
+
+        canvas.rotate(90);
+        drawText(canvas, radiusOut);
+
+        postInvalidateDelayed(1000);
     }
 
     private int clockCenterColor = Color.parseColor("#f54183");
+
+    private int textSize = 34;
+
+    private void drawText(Canvas canvas, int radiusOut) {
+        float textHeight = textPaint.getFontMetrics().bottom - textPaint.getFontMetrics().top;
+        int distance = radiusOut - 60 - textSize;
+        float x, y;
+        for (int i = 0; i < 12; i++) {
+            x = (float) (distance * Math.sin(i * 30 * Math.PI / 180));
+            y = (float) (-distance * Math.cos(i * 30 * Math.PI / 180));
+            if (i == 0) {
+                canvas.drawText("12", x, y + textHeight / 3, textPaint);
+            } else {
+                canvas.drawText(String.valueOf(i), x, y + textHeight / 3, textPaint);
+            }
+        }
+    }
 
 }
