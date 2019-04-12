@@ -2,6 +2,7 @@ package leavesc.hello.customview.clock;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import leavesc.hello.customview.R;
 
@@ -14,10 +15,21 @@ import leavesc.hello.customview.R;
  */
 public class ClockViewActivity extends AppCompatActivity {
 
+    private ClockView clockView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clock_view);
+        clockView = findViewById(R.id.clockView);
+    }
+
+    public void setVisible(View view) {
+        clockView.setVisibility(View.VISIBLE);
+    }
+
+    public void setInvisible(View view) {
+        clockView.setVisibility(View.INVISIBLE);
     }
 
 }
