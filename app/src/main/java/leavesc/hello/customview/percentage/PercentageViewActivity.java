@@ -59,7 +59,7 @@ public class PercentageViewActivity extends AppCompatActivity {
 
     public void addData(View view) {
         PercentageModel percentageModel = new PercentageModel();
-        percentageModel.setValue((float) (new Random().nextInt(30)));
+        percentageModel.setValue((float) (new Random().nextInt(50)));
         percentageModelList.add(percentageModel);
         percentageView.setData(percentageModelList);
     }

@@ -9,7 +9,8 @@
     <leavesc.hello.customview.clock.ClockView
         android:id="@+id/clockView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#abc" />
 
     <Button
         android:layout_width="match_parent"
@@ -21,6 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="setInvisible"
+        android:text="使之不可见" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="setInvisible2"
         android:text="使之不可见" />
 
 </LinearLayout>

@@ -29,7 +29,7 @@ public class ClockView extends View {
 
     private static final String TAG = "ClockView";
 
-    private BroadcastReceiver timerBroadcast = new BroadcastReceiver() {
+    private final BroadcastReceiver timerBroadcast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -47,11 +47,11 @@ public class ClockView extends View {
 
     private static final int INVALIDATE = 10;
 
-    private static class TimerHandler extends Handler {
+    private static final class TimerHandler extends Handler {
 
         private WeakReference<ClockView> clockSupportViewWeakReference;
 
-        TimerHandler(ClockView clockView) {
+        private TimerHandler(ClockView clockView) {
             clockSupportViewWeakReference = new WeakReference<>(clockView);
         }
 
@@ -76,7 +76,7 @@ public class ClockView extends View {
 
     private Paint textPaint;
 
-    private int stockWidth = 12;
+    private int stockWidth = 18;
 
     private static final int DEFAULT_SIZE = 400;
 
@@ -124,6 +124,7 @@ public class ClockView extends View {
     private void initTextPaint() {
         textPaint = new Paint();
         textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setAntiAlias(true);
         textPaint.setStrokeWidth(12);
         textPaint.setTextSize(textSize);
@@ -153,6 +154,8 @@ public class ClockView extends View {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        Log.e(TAG, "onAttachedToWindow");
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         getContext().registerReceiver(timerBroadcast, filter);
@@ -163,31 +166,33 @@ public class ClockView extends View {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        Log.e(TAG, "onDetachedFromWindow");
+
         getContext().unregisterReceiver(timerBroadcast);
-        isVisible = false;
         stopTimer();
     }
 
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
+        Log.e(TAG, "onVisibilityChanged");
         if (visibility == View.VISIBLE) {
-            isVisible = true;
             startTimer();
         } else {
-            isVisible = false;
             stopTimer();
         }
     }
 
     private void startTimer() {
         Log.e(TAG, "startTimer 开启定时任务");
+        isVisible = true;
         timerHandler.removeMessages(INVALIDATE);
         timerHandler.sendEmptyMessage(INVALIDATE);
     }
 
     private void stopTimer() {
         Log.e(TAG, "stopTimer 停止定时任务");
+        isVisible = false;
         timerHandler.removeMessages(INVALIDATE);
     }
 
@@ -202,30 +207,35 @@ public class ClockView extends View {
     protected void onDraw(Canvas canvas) {
         //中心点的横纵坐标
         int point = getWidth() / 2;
-        //外圆的半径
+        //圆的半径
         int radiusOut = point - stockWidth;
 
         canvas.translate(point, point);
-        canvas.rotate(-90);
 
+        //绘制表盘
+        clockPaint.setStrokeWidth(stockWidth);
         clockPaint.setStyle(Paint.Style.STROKE);
-
         clockPaint.setColor(aroundColor);
         canvas.drawCircle(0, 0, radiusOut, clockPaint);
+        clockPaint.setStyle(Paint.Style.FILL);
+        clockPaint.setColor(Color.WHITE);
+        canvas.drawCircle(0, 0, radiusOut, clockPaint);
 
+        //绘制时钟数字
+        drawText(canvas, radiusOut);
+
+        canvas.rotate(-90);
+
+        //绘制小短线
         canvas.save();
-
         float longStartY = radiusOut - 40;
         float longStopY = longStartY + 20;
         float longStockWidth = stockWidth * 0.6f;
-
         float temp = (longStopY - longStartY) / 2.5f;
         float shortStartY = longStartY + temp;
         float shortStopY = shortStartY + temp;
         float shortStockWidth = longStockWidth * 0.5f;
-
         clockPaint.setColor(Color.BLACK);
-
         float degrees = 6;
         for (int i = 0; i <= 360; i += degrees) {
             if (i % 30 == 0) {
@@ -237,50 +247,41 @@ public class ClockView extends View {
             }
             canvas.rotate(degrees);
         }
-
         canvas.restore();
 
         float perHour = hour / 12.0f;
         float perMinute = minute / 60.0f;
         float perSecond = second / 60.0f;
-
+        //绘制时针
         canvas.save();
         canvas.rotate(perHour * 360.0f);
         canvas.drawLine(-30, 0, radiusOut / 2, 0, clockPaint);
         canvas.restore();
-
+        //绘制分针
         canvas.save();
         canvas.rotate(perMinute * 360.0f);
         canvas.drawLine(-30, 0, radiusOut * 0.7f, 0, clockPaint);
         canvas.restore();
-
-        clockPaint.setColor(Color.RED);
-
+        //绘制秒针
+        clockPaint.setColor(Color.parseColor("#fff2204d"));
         canvas.save();
         canvas.rotate(perSecond * 360.0f);
         canvas.drawLine(-30, 0, radiusOut * 0.85f, 0, clockPaint);
         canvas.restore();
-
+        //绘制中心小圆点
         clockPaint.setStyle(Paint.Style.FILL);
         clockPaint.setColor(clockCenterColor);
         canvas.drawCircle(0, 0, 10, clockPaint);
-
-        canvas.rotate(90);
-        drawText(canvas, radiusOut);
     }
 
     private void drawText(Canvas canvas, int radiusOut) {
         float textHeight = textPaint.getFontMetrics().bottom - textPaint.getFontMetrics().top;
-        int distance = radiusOut - 60 - textSize;
+        int distance = radiusOut - 40 - textSize;
         float x, y;
-        for (int i = 0; i < 12; i += 3) {
+        for (int i = 3; i <= 12; i += 3) {
             x = (float) (distance * Math.sin(i * 30 * Math.PI / 180));
             y = (float) (-distance * Math.cos(i * 30 * Math.PI / 180));
-            if (i == 0) {
-                canvas.drawText("12", x, y + textHeight / 3, textPaint);
-            } else {
-                canvas.drawText(String.valueOf(i), x, y + textHeight / 3, textPaint);
-            }
+            canvas.drawText(String.valueOf(i), x, y + textHeight / 3, textPaint);
         }
     }
 
