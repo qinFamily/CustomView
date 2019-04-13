@@ -6,28 +6,49 @@
     android:orientation="vertical"
     tools:context=".clock.ClockViewActivity">
 
-    <leavesc.hello.customview.clock.ClockView
-        android:id="@+id/clockView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#abc" />
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="setVisible"
-        android:text="使之可见" />
+        <leavesc.hello.customview.clock.ClockView
+            android:id="@+id/clockView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="setInvisible"
-        android:text="使之不可见" />
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text=" " />
 
-    <Button
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekBar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="setInvisible2"
-        android:text="使之不可见" />
+        android:layout_margin="20dp" />
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekBar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" />
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekBar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" />
+
+    <android.support.v7.widget.AppCompatSeekBar
+        android:id="@+id/seekBar4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" />
+
 
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -45,26 +46,26 @@ public class ClockView extends View {
         }
     };
 
-    private static final int INVALIDATE = 10;
+    private static final int MSG_INVALIDATE = 10;
 
     private static final class TimerHandler extends Handler {
 
-        private WeakReference<ClockView> clockSupportViewWeakReference;
+        private WeakReference<ClockView> clockViewWeakReference;
 
         private TimerHandler(ClockView clockView) {
-            clockSupportViewWeakReference = new WeakReference<>(clockView);
+            clockViewWeakReference = new WeakReference<>(clockView);
         }
 
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case INVALIDATE: {
+                case MSG_INVALIDATE: {
                     Log.e(TAG, "定时任务被触发...");
-                    ClockView view = clockSupportViewWeakReference.get();
+                    ClockView view = clockViewWeakReference.get();
                     if (view != null && view.isVisible) {
                         view.onTimeChanged();
                         view.invalidate();
-                        sendEmptyMessageDelayed(INVALIDATE, 1000);
+                        sendEmptyMessageDelayed(MSG_INVALIDATE, 1000);
                     }
                     break;
                 }
@@ -76,11 +77,22 @@ public class ClockView extends View {
 
     private Paint textPaint;
 
-    private int stockWidth = 18;
-
     private static final int DEFAULT_SIZE = 400;
 
+    //表盘边缘颜色
     private int aroundColor = Color.parseColor("#083476");
+
+    //表盘中心点颜色
+    private int clockCenterColor = Color.parseColor("#008577");
+
+    //表盘边缘线的宽度
+    private int aroundStockWidth = 12;
+
+    //字体宽度
+    private int textStockWidth = 12;
+
+    //字体大小
+    private int textSize = 28;
 
     private volatile Time time;
 
@@ -93,10 +105,6 @@ public class ClockView extends View {
     private TimerHandler timerHandler;
 
     private volatile boolean isVisible;
-
-    private int clockCenterColor = Color.parseColor("#f54183");
-
-    private int textSize = 34;
 
     public ClockView(Context context) {
         this(context, null);
@@ -116,17 +124,17 @@ public class ClockView extends View {
 
     private void initClockPaint() {
         clockPaint = new Paint();
-        clockPaint.setAntiAlias(true);
         clockPaint.setStyle(Paint.Style.STROKE);
-        clockPaint.setStrokeWidth(stockWidth);
+        clockPaint.setAntiAlias(true);
+        clockPaint.setStrokeWidth(aroundStockWidth);
     }
 
     private void initTextPaint() {
         textPaint = new Paint();
         textPaint.setStyle(Paint.Style.FILL);
-        textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setAntiAlias(true);
-        textPaint.setStrokeWidth(12);
+        textPaint.setStrokeWidth(textStockWidth);
+        textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(textSize);
     }
 
@@ -155,7 +163,6 @@ public class ClockView extends View {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         Log.e(TAG, "onAttachedToWindow");
-
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         getContext().registerReceiver(timerBroadcast, filter);
@@ -167,7 +174,6 @@ public class ClockView extends View {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.e(TAG, "onDetachedFromWindow");
-
         getContext().unregisterReceiver(timerBroadcast);
         stopTimer();
     }
@@ -186,14 +192,14 @@ public class ClockView extends View {
     private void startTimer() {
         Log.e(TAG, "startTimer 开启定时任务");
         isVisible = true;
-        timerHandler.removeMessages(INVALIDATE);
-        timerHandler.sendEmptyMessage(INVALIDATE);
+        timerHandler.removeMessages(MSG_INVALIDATE);
+        timerHandler.sendEmptyMessage(MSG_INVALIDATE);
     }
 
     private void stopTimer() {
         Log.e(TAG, "stopTimer 停止定时任务");
         isVisible = false;
-        timerHandler.removeMessages(INVALIDATE);
+        timerHandler.removeMessages(MSG_INVALIDATE);
     }
 
     private void onTimeChanged() {
@@ -205,36 +211,36 @@ public class ClockView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //中心点的横纵坐标
-        int point = getWidth() / 2;
-        //圆的半径
-        int radiusOut = point - stockWidth;
+//        aroundStockWidth = 0;
 
-        canvas.translate(point, point);
+        //中心点的横纵坐标
+        float pointWH = getWidth() / 2.0f;
+        //内圆的半径
+        float radiusIn = pointWH - aroundStockWidth;
+
+        canvas.translate(pointWH, pointWH);
 
         //绘制表盘
-        clockPaint.setStrokeWidth(stockWidth);
+        clockPaint.setStrokeWidth(aroundStockWidth);
         clockPaint.setStyle(Paint.Style.STROKE);
         clockPaint.setColor(aroundColor);
-        canvas.drawCircle(0, 0, radiusOut, clockPaint);
+        canvas.drawCircle(0, 0, pointWH - aroundStockWidth / 2.0f, clockPaint);
         clockPaint.setStyle(Paint.Style.FILL);
         clockPaint.setColor(Color.WHITE);
-        canvas.drawCircle(0, 0, radiusOut, clockPaint);
-
-        //绘制时钟数字
-        drawText(canvas, radiusOut);
-
-        canvas.rotate(-90);
+        //加1是为了保证不会因为精度问题导致出现绘制间隙
+        canvas.drawCircle(0, 0, radiusIn + 1, clockPaint);
 
         //绘制小短线
         canvas.save();
-        float longStartY = radiusOut - 40;
-        float longStopY = longStartY + 20;
-        float longStockWidth = stockWidth * 0.6f;
-        float temp = (longStopY - longStartY) / 2.5f;
-        float shortStartY = longStartY + temp;
-        float shortStopY = shortStartY + temp;
-        float shortStockWidth = longStockWidth * 0.5f;
+        canvas.rotate(-90);
+        float longLineLength = radiusIn / 16.0f;
+        float longStartY = radiusIn - longLineLength;
+        float longStopY = longStartY - longLineLength;
+        float longStockWidth = 2;
+        float temp = longLineLength / 4.0f;
+        float shortStartY = longStartY - temp;
+        float shortStopY = longStopY + temp;
+        float shortStockWidth = longStockWidth / 2.0f;
         clockPaint.setColor(Color.BLACK);
         float degrees = 6;
         for (int i = 0; i <= 360; i += degrees) {
@@ -249,40 +255,69 @@ public class ClockView extends View {
         }
         canvas.restore();
 
-        float perHour = hour / 12.0f;
-        float perMinute = minute / 60.0f;
-        float perSecond = second / 60.0f;
+        //绘制时钟数字
+        float x, y;
+        for (int i = 1; i <= 12; i += 1) {
+            textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), rect);
+            float textHeight = rect.height();
+            float distance = radiusIn - 2 * longLineLength - textHeight;
+            double tempVa = i * 30.0f * Math.PI / 180.0f;
+            x = (float) (distance * Math.sin(tempVa));
+            y = (float) (-distance * Math.cos(tempVa));
+            canvas.drawText(String.valueOf(i), x, y + textHeight / 3, textPaint);
+        }
+
+        canvas.rotate(-90);
+
+        clockPaint.setStrokeWidth(2);
         //绘制时针
         canvas.save();
-        canvas.rotate(perHour * 360.0f);
-        canvas.drawLine(-30, 0, radiusOut / 2, 0, clockPaint);
+        canvas.rotate(hour / 12.0f * 360.0f);
+        canvas.drawLine(-30, 0, radiusIn / 2.0f, 0, clockPaint);
         canvas.restore();
         //绘制分针
         canvas.save();
-        canvas.rotate(perMinute * 360.0f);
-        canvas.drawLine(-30, 0, radiusOut * 0.7f, 0, clockPaint);
+        canvas.rotate(minute / 60.0f * 360.0f);
+        canvas.drawLine(-30, 0, radiusIn * 0.7f, 0, clockPaint);
         canvas.restore();
         //绘制秒针
         clockPaint.setColor(Color.parseColor("#fff2204d"));
         canvas.save();
-        canvas.rotate(perSecond * 360.0f);
-        canvas.drawLine(-30, 0, radiusOut * 0.85f, 0, clockPaint);
+        canvas.rotate(second / 60.0f * 360.0f);
+        canvas.drawLine(-30, 0, radiusIn * 0.85f, 0, clockPaint);
         canvas.restore();
         //绘制中心小圆点
         clockPaint.setStyle(Paint.Style.FILL);
         clockPaint.setColor(clockCenterColor);
-        canvas.drawCircle(0, 0, 10, clockPaint);
+        canvas.drawCircle(0, 0, radiusIn / 20.0f, clockPaint);
     }
 
-    private void drawText(Canvas canvas, int radiusOut) {
-        float textHeight = textPaint.getFontMetrics().bottom - textPaint.getFontMetrics().top;
-        int distance = radiusOut - 40 - textSize;
-        float x, y;
-        for (int i = 3; i <= 12; i += 3) {
-            x = (float) (distance * Math.sin(i * 30 * Math.PI / 180));
-            y = (float) (-distance * Math.cos(i * 30 * Math.PI / 180));
-            canvas.drawText(String.valueOf(i), x, y + textHeight / 3, textPaint);
-        }
+    private Rect rect = new Rect();
+
+    public void setAroundColor(int aroundColor) {
+        this.aroundColor = aroundColor;
+        invalidate();
+    }
+
+    public void setClockCenterColor(int clockCenterColor) {
+        this.clockCenterColor = clockCenterColor;
+        invalidate();
+    }
+
+    public void setAroundStockWidth(int aroundStockWidth) {
+        this.aroundStockWidth = aroundStockWidth;
+        invalidate();
+    }
+
+    public void setTextStockWidth(int textStockWidth) {
+        this.textStockWidth = textStockWidth;
+        invalidate();
+    }
+
+    public void setClockTextSize(int textSize) {
+        this.textSize = textSize;
+        textPaint.setTextSize(textSize);
+        invalidate();
     }
 
 }

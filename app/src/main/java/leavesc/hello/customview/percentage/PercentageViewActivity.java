@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import leavesc.hello.customview.R;
+import leavesc.hello.customview.widget.OnSeekBarChangeSimpleListener;
 
 /**
  * 作者：leavesC
@@ -39,20 +40,10 @@ public class PercentageViewActivity extends AppCompatActivity {
         percentageView.setData(percentageModelList);
         AppCompatSeekBar seekBar = findViewById(R.id.seekBar);
         seekBar.setMax(360);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeSimpleListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 percentageView.setStartAngle(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
     }
