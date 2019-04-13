@@ -211,8 +211,6 @@ public class ClockView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        aroundStockWidth = 0;
-
         //中心点的横纵坐标
         float pointWH = getWidth() / 2.0f;
         //内圆的半径
