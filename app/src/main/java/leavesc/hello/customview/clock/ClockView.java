@@ -219,14 +219,15 @@ public class ClockView extends View {
         canvas.translate(pointWH, pointWH);
 
         //绘制表盘
-        clockPaint.setStrokeWidth(aroundStockWidth);
-        clockPaint.setStyle(Paint.Style.STROKE);
-        clockPaint.setColor(aroundColor);
-        canvas.drawCircle(0, 0, pointWH - aroundStockWidth / 2.0f, clockPaint);
+        if (aroundStockWidth > 0) {
+            clockPaint.setStrokeWidth(aroundStockWidth);
+            clockPaint.setStyle(Paint.Style.STROKE);
+            clockPaint.setColor(aroundColor);
+            canvas.drawCircle(0, 0, pointWH - aroundStockWidth / 2.0f, clockPaint);
+        }
         clockPaint.setStyle(Paint.Style.FILL);
         clockPaint.setColor(Color.WHITE);
-        //加1是为了保证不会因为精度问题导致出现绘制间隙
-        canvas.drawCircle(0, 0, radiusIn + 1, clockPaint);
+        canvas.drawCircle(0, 0, radiusIn, clockPaint);
 
         //绘制小短线
         canvas.save();
@@ -254,15 +255,17 @@ public class ClockView extends View {
         canvas.restore();
 
         //绘制时钟数字
-        float x, y;
-        for (int i = 1; i <= 12; i += 1) {
-            textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), rect);
-            float textHeight = rect.height();
-            float distance = radiusIn - 2 * longLineLength - textHeight;
-            double tempVa = i * 30.0f * Math.PI / 180.0f;
-            x = (float) (distance * Math.sin(tempVa));
-            y = (float) (-distance * Math.cos(tempVa));
-            canvas.drawText(String.valueOf(i), x, y + textHeight / 3, textPaint);
+        if (textSize > 0) {
+            float x, y;
+            for (int i = 1; i <= 12; i += 1) {
+                textPaint.getTextBounds(String.valueOf(i), 0, String.valueOf(i).length(), rect);
+                float textHeight = rect.height();
+                float distance = radiusIn - 2 * longLineLength - textHeight;
+                double tempVa = i * 30.0f * Math.PI / 180.0f;
+                x = (float) (distance * Math.sin(tempVa));
+                y = (float) (-distance * Math.cos(tempVa));
+                canvas.drawText(String.valueOf(i), x, y + textHeight / 3, textPaint);
+            }
         }
 
         canvas.rotate(-90);
