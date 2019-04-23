@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import leavesc.hello.customview.circleRefresh.CircleRefreshViewActivity;
 import leavesc.hello.customview.clock.ClockViewActivity;
 import leavesc.hello.customview.percentage.PercentageViewActivity;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startActivity(CircleRefreshViewActivity.class);
     }
 
     private void startActivity(Class clazz) {
@@ -33,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void startPercentageViewActivity(View view) {
         startActivity(PercentageViewActivity.class);
+    }
+
+    public void startCircleRefreshViewActivity(View view) {
+        startActivity(CircleRefreshViewActivity.class);
     }
 
 }

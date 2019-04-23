@@ -26,6 +26,9 @@
         <activity
             android:name=".percentage.PercentageViewActivity"
             android:screenOrientation="behind" />
+        <activity
+            android:name=".circleRefresh.CircleRefreshViewActivity"
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

@@ -9,12 +9,11 @@ import android.widget.SeekBar;
  * GitHub：https://github.com/leavesC
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
-public class OnSeekBarChangeSimpleListener implements SeekBar.OnSeekBarChangeListener {
+public abstract class OnSeekBarChangeSimpleListener implements SeekBar.OnSeekBarChangeListener {
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    public abstract void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser);
 
-    }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
