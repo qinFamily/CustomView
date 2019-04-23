@@ -27,12 +27,12 @@ public class CircleRefreshView extends View {
 
     private final static class Circle {
 
-        private int x;
-        private int y;
-        private int radius;
+        private float x;
+        private float y;
+        private float radius;
         private int color;
 
-        private Circle(int x, int y, int radius, int color) {
+        private Circle(float x, float y, float radius, int color) {
             this.x = x;
             this.y = y;
             this.radius = radius;
@@ -177,51 +177,126 @@ public class CircleRefreshView extends View {
     }
 
     private void updateCircle(int index, float fraction) {
-        float progress = fraction;  //真实进度
-        float virtualFraction;      //每个小球内部的虚拟进度
-        switch (index) {
-            case LEFT:
-                if (fraction < 5f / 6f) {
-                    progress = progress + 1f / 6f;
-                } else {
-                    progress = progress - 5f / 6f;
-                }
-                break;
-            case CENTER:
-                if (fraction < 0.5f) {
-                    progress = progress + 0.5f;
-                } else {
-                    progress = progress - 0.5f;
-                }
-                break;
-            case RIGHT:
-                if (fraction < 1f / 6f) {
-                    progress += 5f / 6f;
-                } else {
-                    progress -= 1f / 6f;
-                }
-                break;
-        }
-        Circle circle = circleList.get(index);
-        if (progress <= 1f / 6f) {
-            virtualFraction = progress * 6;
-            circle.radius = (int) (minRadius * virtualFraction);
-            circle.x = minRadius;
-            return;
-        }
-        if (progress >= 5f / 6f) {
-            virtualFraction = (progress - 5f / 6f) * 6;
-            circle.radius = (int) (minRadius * (1 - virtualFraction));
-            return;
-        }
-        virtualFraction = (progress - 1f / 6f) * 3f / 2f;
-        int difference = maxRadius - minRadius;
-        if (virtualFraction < 0.5) {
-            circle.radius = (int) (minRadius + difference * virtualFraction * 2);
-        } else {
-            circle.radius = (int) (maxRadius - difference * (virtualFraction - 0.5) * 2);
-        }
-        circle.x = (int) (minRadius + mGap * 2 * virtualFraction);
+//        switch (index) {
+//            case LEFT: {
+//                float radius = 0;
+//                if (fraction <= 1f / 6f) {
+//                    radius = minRadius * ((1 - 6f) / 36f);
+//                } else if (fraction <= 0.5) {
+//                    radius = minRadius + (3f - 0.5f) * mGap;
+//                } else if (fraction <= 5f / 6f) {
+//                    radius = maxRadius - (fraction - 0.5f) / 2
+//                }
+//
+//
+//                if (fraction <= 0.5f) {
+//                    float proportion = fraction / 0.5f;
+//                    float radius = ((maxRadius - minRadius) * proportion) + minRadius;
+//                    float x = mGap * proportion + minRadius;
+//
+//                    Circle circle = circleList.get(index);
+//                    circle.x = x;
+//                    circle.radius = radius;
+//                } else {
+//                    float proportion = (fraction - 0.5f) / 0.5f;
+//                    float radius = maxRadius - (maxRadius - minRadius) * proportion;
+//                    float x = contentWidth / 2 + mGap * proportion;
+//
+//                    Circle circle = circleList.get(index);
+//                    circle.x = x;
+//                    circle.radius = radius;
+//                }
+//                break;
+//            }
+//            case RIGHT: {
+//                if (fraction <= 0.5f) {
+//                    float proportion = (fraction - 0.5f) / 0.5f;
+//                    float radius = maxRadius - (maxRadius - minRadius) * proportion;
+//                    float x = contentWidth / 2 + mGap * proportion;
+//
+//                    Circle circle = circleList.get(index);
+//                    circle.x = x;
+//                    circle.radius = radius;
+//                } else {
+//                    float proportion = fraction / 0.5f;
+//                    float radius = ((maxRadius - minRadius) * proportion) + minRadius;
+//                    float x = mGap * proportion + minRadius;
+//
+//                    Circle circle = circleList.get(index);
+//                    circle.x = x;
+//                    circle.radius = radius;
+//                }
+//                break;
+//            }
+//            case CENTER: {
+//                if (fraction <= 0.5f) {
+//                    float proportion = (fraction - 0.5f) / 0.5f;
+//                    float radius = maxRadius - (maxRadius - minRadius) * proportion;
+//                    float x = contentWidth / 2 + mGap * proportion;
+//
+//                    Circle circle = circleList.get(index);
+//                    circle.x = x;
+//                    circle.radius = radius;
+//                } else {
+//                    float proportion = fraction / 0.5f;
+//                    float radius = ((maxRadius - minRadius) * proportion) + minRadius;
+//                    float x = mGap * proportion + minRadius;
+//
+//                    Circle circle = circleList.get(index);
+//                    circle.x = x;
+//                    circle.radius = radius;
+//                }
+//                break;
+//            }
+//        }
+
+
+//        Log.e(TAG, "fraction: " + fraction);
+//        float progress = fraction;  //真实进度
+//        float virtualFraction;      //每个小球内部的虚拟进度
+//        switch (index) {
+//            case LEFT:
+//                if (fraction < 5f / 6f) {
+//                    progress = progress + 1f / 6f;
+//                } else {
+//                    progress = progress - 5f / 6f;
+//                }
+//                break;
+//            case CENTER:
+//                if (fraction < 0.5f) {
+//                    progress = progress + 0.5f;
+//                } else {
+//                    progress = progress - 0.5f;
+//                }
+//                break;
+//            case RIGHT:
+//                if (fraction < 1f / 6f) {
+//                    progress += 5f / 6f;
+//                } else {
+//                    progress -= 1f / 6f;
+//                }
+//                break;
+//        }
+//        Circle circle = circleList.get(index);
+//        if (progress <= 1f / 6f) {
+//            virtualFraction = progress * 6;
+//            circle.radius = (int) (minRadius * virtualFraction);
+//            circle.x = minRadius;
+//            return;
+//        }
+//        if (progress >= 5f / 6f) {
+//            virtualFraction = (progress - 5f / 6f) * 6;
+//            circle.radius = (int) (minRadius * (1 - virtualFraction));
+//            return;
+//        }
+//        virtualFraction = (progress - 1f / 6f) * 3f / 2f;
+//        int difference = maxRadius - minRadius;
+//        if (virtualFraction < 0.5) {
+//            circle.radius = (int) (minRadius + difference * virtualFraction * 2);
+//        } else {
+//            circle.radius = (int) (maxRadius - difference * (virtualFraction - 0.5) * 2);
+//        }
+//        circle.x = (int) (minRadius + mGap * 2 * virtualFraction);
     }
 
     @Override
