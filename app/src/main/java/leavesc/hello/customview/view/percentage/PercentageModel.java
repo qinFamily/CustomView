@@ -1,4 +1,4 @@
-package leavesc.hello.customview.percentage;
+package leavesc.hello.customview.view.percentage;
 
 /**
  * 作者：leavesC

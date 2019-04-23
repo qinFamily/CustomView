@@ -1,4 +1,4 @@
-package leavesc.hello.customview.clock;
+package leavesc.hello.customview.view.clock;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

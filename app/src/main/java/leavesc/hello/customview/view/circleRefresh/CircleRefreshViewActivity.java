@@ -1,4 +1,4 @@
-package leavesc.hello.customview.circleRefresh;
+package leavesc.hello.customview.view.circleRefresh;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

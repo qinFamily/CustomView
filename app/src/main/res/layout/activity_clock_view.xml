@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".clock.ClockViewActivity">
+    tools:context=".view.clock.ClockViewActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <leavesc.hello.customview.clock.ClockView
+        <leavesc.hello.customview.view.clock.ClockView
             android:id="@+id/clockView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

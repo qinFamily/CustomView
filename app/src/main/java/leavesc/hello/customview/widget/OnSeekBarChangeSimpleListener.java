@@ -14,7 +14,6 @@ public abstract class OnSeekBarChangeSimpleListener implements SeekBar.OnSeekBar
     @Override
     public abstract void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser);
 
-
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
 

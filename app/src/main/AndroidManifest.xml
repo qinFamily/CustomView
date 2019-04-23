@@ -21,13 +21,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".clock.ClockViewActivity"
+            android:name=".view.clock.ClockViewActivity"
             android:screenOrientation="behind" />
         <activity
-            android:name=".percentage.PercentageViewActivity"
+            android:name=".view.percentage.PercentageViewActivity"
             android:screenOrientation="behind" />
         <activity
-            android:name=".circleRefresh.CircleRefreshViewActivity"
+            android:name=".view.circleRefresh.CircleRefreshViewActivity"
             android:screenOrientation="behind" />
     </application>
 

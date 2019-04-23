@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import leavesc.hello.customview.circleRefresh.CircleRefreshViewActivity;
-import leavesc.hello.customview.clock.ClockViewActivity;
-import leavesc.hello.customview.percentage.PercentageViewActivity;
+import leavesc.hello.customview.view.circleRefresh.CircleRefreshViewActivity;
+import leavesc.hello.customview.view.clock.ClockViewActivity;
+import leavesc.hello.customview.view.percentage.PercentageViewActivity;
 
 /**
  * 作者：leavesC

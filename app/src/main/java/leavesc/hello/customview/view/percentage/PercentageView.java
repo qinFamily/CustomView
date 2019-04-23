@@ -1,4 +1,4 @@
-package leavesc.hello.customview.percentage;
+package leavesc.hello.customview.view.percentage;
 
 import android.content.Context;
 import android.graphics.Canvas;

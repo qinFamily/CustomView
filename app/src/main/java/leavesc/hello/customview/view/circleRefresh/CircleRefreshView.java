@@ -1,4 +1,4 @@
-package leavesc.hello.customview.circleRefresh;
+package leavesc.hello.customview.view.circleRefresh;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -22,6 +22,8 @@ import leavesc.hello.customview.utils.ViewUtils;
  * 描述：
  */
 public class CircleRefreshView extends View {
+
+    private static final String TAG = "CircleRefreshView";
 
     private final static class Circle {
 
@@ -152,7 +154,7 @@ public class CircleRefreshView extends View {
                 for (int i = 0; i < circleList.size(); i++) {
                     updateCircle(i, animation.getAnimatedFraction());
                 }
-                postInvalidate();
+                invalidate();
             }
         });
     }
@@ -171,7 +173,7 @@ public class CircleRefreshView extends View {
         circle.x = contentWidth / 2;
         circle.radius = maxRadius;
 
-        postInvalidate();
+        invalidate();
     }
 
     private void updateCircle(int index, float fraction) {
@@ -283,7 +285,7 @@ public class CircleRefreshView extends View {
         }
         circleList.get(LEFT).x = (int) (minRadius + mGap * (1f - fraction));
         circleList.get(RIGHT).x = (int) (contentWidth / 2 + mGap * fraction);
-        postInvalidate();
+        invalidate();
     }
 
     private void resetCircles() {

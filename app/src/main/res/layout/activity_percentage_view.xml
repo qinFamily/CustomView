@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".percentage.PercentageViewActivity">
+    tools:context=".view.percentage.PercentageViewActivity">
 
-    <leavesc.hello.customview.percentage.PercentageView
+    <leavesc.hello.customview.view.percentage.PercentageView
         android:id="@+id/percentageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

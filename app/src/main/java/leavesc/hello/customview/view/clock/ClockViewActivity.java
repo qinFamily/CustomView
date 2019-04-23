@@ -1,4 +1,4 @@
-package leavesc.hello.customview.clock;
+package leavesc.hello.customview.view.clock;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

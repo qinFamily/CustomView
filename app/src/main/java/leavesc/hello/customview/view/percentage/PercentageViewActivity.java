@@ -1,4 +1,4 @@
-package leavesc.hello.customview.percentage;
+package leavesc.hello.customview.view.percentage;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
