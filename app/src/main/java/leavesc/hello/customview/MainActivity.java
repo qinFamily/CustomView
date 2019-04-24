@@ -8,6 +8,7 @@ import android.view.View;
 import leavesc.hello.customview.view.circleRefresh.CircleRefreshViewActivity;
 import leavesc.hello.customview.view.clock.ClockViewActivity;
 import leavesc.hello.customview.view.percentage.PercentageViewActivity;
+import leavesc.hello.customview.view.rain.RainViewActivity;
 
 /**
  * 作者：leavesC
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void startCircleRefreshViewActivity(View view) {
         startActivity(CircleRefreshViewActivity.class);
+    }
+
+    public void startRainViewActivity(View view) {
+        startActivity(RainViewActivity.class);
     }
 
 }

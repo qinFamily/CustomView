@@ -29,6 +29,9 @@
         <activity
             android:name=".view.circleRefresh.CircleRefreshViewActivity"
             android:screenOrientation="behind" />
+        <activity
+            android:name=".view.rain.RainViewActivity"
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

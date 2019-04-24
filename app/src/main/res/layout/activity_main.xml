@@ -11,18 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="startClockActivity"
-        android:text="时钟" />
+        android:text="时钟View"
+        android:textAllCaps="false" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="startPercentageViewActivity"
-        android:text="饼状图" />
+        android:text="饼状图View"
+        android:textAllCaps="false" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="startCircleRefreshViewActivity"
-        android:text="仿QQ邮箱下拉刷新" />
+        android:text="仿QQ邮箱下拉刷新View"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startRainViewActivity"
+        android:text="下雨View"
+        android:textAllCaps="false" />
 
 </LinearLayout>
