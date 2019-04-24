@@ -14,13 +14,17 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 作者：leavesC
  * 时间：2019/4/24 18:06
  * 描述：
  */
-public class RainView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public class RainView extends SurfaceView implements SurfaceHolder.Callback {
 
     private static final String TAG = "RainView";
 
@@ -31,8 +35,6 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback, Run
         private float stopY;
     }
 
-    private boolean flag = true;
-
     private SurfaceHolder surfaceHolder;
 
     private Paint paint;
@@ -41,15 +43,19 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     private Random random;
 
-    public static final int DEFAULT_SPEED = 30;
+    private static final int DEFAULT_SPEED = 30;
 
-    public static final int DEFAULT_DEGREE = 60;
+    private static final int DEFAULT_DEGREE = 30;
 
     //雨的下落速度
     private volatile int speed = DEFAULT_SPEED;
 
     //雨的密集程度
     private volatile int degree = DEFAULT_DEGREE;
+
+    private ScheduledExecutorService scheduledExecutorService;
+
+    private ScheduledFuture<?> scheduledFuture;
 
     public RainView(Context context) {
         this(context, null);
@@ -67,6 +73,7 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback, Run
         setZOrderOnTop(true);
         initPaint();
         random = new Random();
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
     }
 
     private void initPaint() {
@@ -77,32 +84,14 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback, Run
         paint.setStrokeWidth(2f);
     }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        flag = true;
-        new Thread(this).start();
-
-        Log.e(TAG, "surfaceCreated: ");
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-        Log.e(TAG, "surfaceChanged");
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        flag = false;
-        Log.e(TAG, "surfaceDestroyed:");
-    }
-
-    @Override
-    public void run() {
-        while (flag) {
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas != null) {
                 canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                 for (Line line : lineList) {
+                    //重置超出屏幕的 Line 的坐标
                     if (line.startY >= getHeight()) {
                         resetLine(line);
                         continue;
@@ -111,14 +100,39 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback, Run
                     line.startY = line.startY + speed;
                     line.stopY = line.stopY + speed;
                 }
+                int tempDegree = degree;
                 int size = lineList.size();
-                if (size < degree) {
+                if (size < tempDegree) {
                     lineList.add(getRandomLine());
-                } else if (size > degree) {
-                    lineList.removeAll(lineList.subList(degree, size - 1));
+                } else if (size > tempDegree) {
+                    lineList.removeAll(lineList.subList(tempDegree, size - 1));
                 }
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
+        }
+    };
+
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        Log.e(TAG, "surfaceCreated");
+        if (scheduledFuture != null && !scheduledFuture.isCancelled()) {
+            scheduledFuture.cancel(false);
+            scheduledFuture = null;
+        }
+        scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(runnable, 300, 1, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Log.e(TAG, "surfaceChanged");
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        Log.e(TAG, "surfaceDestroyed");
+        if (scheduledFuture != null && !scheduledFuture.isCancelled()) {
+            scheduledFuture.cancel(false);
+            scheduledFuture = null;
         }
     }
 
@@ -132,7 +146,7 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback, Run
         line.startX = nextFloat(0, getWidth());
         line.startY = 0;
         //使之有一点点倾斜
-        line.stopX = line.startX + nextFloat(2.0f, 5.0f);
+        line.stopX = line.startX + nextFloat(3.0f, 6.0f);
         line.stopY = line.startY + nextFloat(40.0f, 60.0f);
     }
 
@@ -149,14 +163,12 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback, Run
         return speed;
     }
 
-    public int getDegree() {
-        return degree;
+    public void setDegree(int degree) {
+        this.degree = degree;
     }
 
-    public void setDegree(int degree) {
-        synchronized (lineList) {
-            this.degree = degree;
-        }
+    public int getDegree() {
+        return degree;
     }
 
 }
