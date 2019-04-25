@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -39,7 +39,7 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Paint paint;
 
-    private final List<Line> lineList = new ArrayList<>();
+    private final List<Line> lineList = new LinkedList<>();
 
     private Random random;
 
@@ -89,6 +89,23 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback {
         public void run() {
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas != null) {
+                int tempDegree = degree;
+                int size = lineList.size();
+                if (size < tempDegree) {
+                    //这里需要逐渐添加Line，才能使得Line的高度参差不齐
+                    lineList.add(getRandomLine());
+                } else if (size > tempDegree) {
+                    Line tempLine = null;
+                    for (Line line : lineList) {
+                        if (line.startY >= getHeight()) {
+                            tempLine = line;
+                            break;
+                        }
+                    }
+                    if (tempLine != null) {
+                        lineList.remove(tempLine);
+                    }
+                }
                 canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
                 for (Line line : lineList) {
                     //重置超出屏幕的 Line 的坐标
@@ -99,13 +116,6 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback {
                     canvas.drawLine(line.startX, line.startY, line.stopX, line.stopY, paint);
                     line.startY = line.startY + speed;
                     line.stopY = line.stopY + speed;
-                }
-                int tempDegree = degree;
-                int size = lineList.size();
-                if (size < tempDegree) {
-                    lineList.add(getRandomLine());
-                } else if (size > tempDegree) {
-                    lineList.removeAll(lineList.subList(tempDegree, size - 1));
                 }
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
@@ -119,7 +129,7 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback {
             scheduledFuture.cancel(false);
             scheduledFuture = null;
         }
-        scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(runnable, 300, 1, TimeUnit.MILLISECONDS);
+        scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(runnable, 300, 10, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -134,6 +144,7 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback {
             scheduledFuture.cancel(false);
             scheduledFuture = null;
         }
+        lineList.clear();
     }
 
     private Line getRandomLine() {
@@ -143,11 +154,11 @@ public class RainView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void resetLine(Line line) {
-        line.startX = nextFloat(0, getWidth());
+        line.startX = nextFloat(0, getWidth() - 3.0f);
         line.startY = 0;
         //使之有一点点倾斜
         line.stopX = line.startX + nextFloat(3.0f, 6.0f);
-        line.stopY = line.startY + nextFloat(40.0f, 60.0f);
+        line.stopY = line.startY + nextFloat(30.0f, 50.0f);
     }
 
     //返回 min 到 max 之间的随机数值，包括 min，不包括 max

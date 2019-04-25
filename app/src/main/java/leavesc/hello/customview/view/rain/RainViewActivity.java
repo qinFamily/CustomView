@@ -31,7 +31,7 @@ public class RainViewActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int min = 30;
-                int max = 50;
+                int max = 90;
                 int speed = (int) (min + (max - min) * (progress * 1.0f / speedSeekBar.getMax()));
                 rainView.setSpeed(speed);
 
@@ -45,15 +45,15 @@ public class RainViewActivity extends AppCompatActivity {
         degreeSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeSimpleListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int min = 40;
-                int max = min + 30;
+                int min = 50;
+                int max = min + 100;
                 int degree = (int) (min + (max - min) * (progress * 1.0f / degreeSeekBar.getMax()));
                 rainView.setDegree(degree);
 
                 Log.e(TAG, "degree: " + degree);
             }
         });
-        degreeSeekBar.setProgress(20);
+        degreeSeekBar.setProgress(30);
     }
 
 }
