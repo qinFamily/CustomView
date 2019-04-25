@@ -20,11 +20,16 @@ import leavesc.hello.customview.view.BaseView;
  */
 public class WaveView extends BaseView {
 
-    //每个波浪的宽度占据屏幕宽度的默认比例
+    private static final String TAG = "WaveView";
+
+    //每个波浪的宽度占据View宽度的默认比例
     private static final float DEFAULT_WAVE_SCALE_WIDTH = 0.5f;
 
-    //每个波浪的高度占据屏幕高度的默认比例
-    private static final float DEFAULT_WAVE_SCALE_HEIGHT = 0.024f;
+    //每个波浪的高度占据View高度的默认比例
+    private static final float DEFAULT_WAVE_SCALE_HEIGHT = 0.03f;
+
+    //波浪的默认速度
+    private static final long DEFAULT_SPEED = 2000;
 
     private float waveScaleWidth;
 
@@ -41,6 +46,9 @@ public class WaveView extends BaseView {
 
     //每个波浪的宽度
     private float waveWidth;
+
+    //波浪的速度
+    private long speed = DEFAULT_SPEED;
 
     private float animatedValue;
 
@@ -59,10 +67,10 @@ public class WaveView extends BaseView {
 
     public WaveView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setWaveScaleWidth(DEFAULT_WAVE_SCALE_WIDTH);
-        setWaveScaleHeight(DEFAULT_WAVE_SCALE_HEIGHT);
         initPaint();
         initAnimation();
+        setWaveScaleWidth(DEFAULT_WAVE_SCALE_WIDTH);
+        setWaveScaleHeight(DEFAULT_WAVE_SCALE_HEIGHT);
     }
 
     private void initPaint() {
@@ -74,8 +82,8 @@ public class WaveView extends BaseView {
     }
 
     public void initAnimation() {
-        valueAnimator = ValueAnimator.ofFloat(0, waveWidth);
-        valueAnimator.setDuration(2000);
+        valueAnimator = new ValueAnimator();
+        valueAnimator.setDuration(speed);
         valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
         valueAnimator.setInterpolator(new LinearInterpolator());
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -98,6 +106,7 @@ public class WaveView extends BaseView {
         super.onSizeChanged(w, h, oldW, oldH);
         contentWidth = w;
         contentHeight = h;
+        resetWaveParams();
     }
 
     @Override
@@ -150,10 +159,7 @@ public class WaveView extends BaseView {
             return;
         }
         this.waveScaleWidth = waveScaleWidth;
-        waveWidth = getResources().getDisplayMetrics().widthPixels * waveScaleWidth;
-        if (valueAnimator != null) {
-            valueAnimator.setFloatValues(0, waveWidth);
-        }
+        resetWaveParams();
     }
 
     public float getWaveScaleWidth() {
@@ -165,11 +171,29 @@ public class WaveView extends BaseView {
             return;
         }
         this.waveScaleHeight = waveScaleHeight;
-        waveHeight = getResources().getDisplayMetrics().heightPixels * waveScaleHeight;
+        resetWaveParams();
     }
 
     public float getWaveScaleHeight() {
         return waveScaleHeight;
+    }
+
+    public long getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(long speed) {
+        this.speed = speed;
+        resetWaveParams();
+    }
+
+    private void resetWaveParams() {
+        waveWidth = contentWidth * waveScaleWidth;
+        waveHeight = contentHeight * waveScaleHeight;
+        if (valueAnimator != null) {
+            valueAnimator.setFloatValues(0, waveWidth);
+            valueAnimator.setDuration(speed);
+        }
     }
 
 }

@@ -36,7 +36,7 @@ public class WaveViewActivity extends AppCompatActivity {
                 Log.e(TAG, "width: " + width);
             }
         });
-        seekBarWidth.setProgress(30);
+        seekBarWidth.setProgress(50);
 
         final AppCompatSeekBar seekBarHeight = findViewById(R.id.seekBarHeight);
         seekBarHeight.setMax(100);
@@ -50,6 +50,17 @@ public class WaveViewActivity extends AppCompatActivity {
         });
         seekBarHeight.setProgress(30);
 
+        final AppCompatSeekBar seekBarSpeed = findViewById(R.id.seekBarSpeed);
+        seekBarSpeed.setMax(4000);
+        seekBarSpeed.setOnSeekBarChangeListener(new OnSeekBarChangeSimpleListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                long speed = progress + 300;
+                waveView.setSpeed(speed);
+                Log.e(TAG, "speed: " + speed);
+            }
+        });
+        seekBarSpeed.setProgress(3000);
     }
 
 }

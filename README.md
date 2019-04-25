@@ -5,6 +5,9 @@
 ## **Apk下载地址：[CustomView](https://www.pgyer.com/CustomView)**
 
 
+![波浪](screenshot/WaveView.gif)
+
+
 ![下雨](screenshot/RainView.gif)
 
 
