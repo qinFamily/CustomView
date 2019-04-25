@@ -2,9 +2,12 @@ package leavesc.hello.customview.view.wave;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.support.v7.widget.AppCompatSeekBar;
+import android.util.Log;
+import android.widget.SeekBar;
 
 import leavesc.hello.customview.R;
+import leavesc.hello.customview.widget.OnSeekBarChangeSimpleListener;
 
 /**
  * 作者：leavesC
@@ -13,6 +16,8 @@ import leavesc.hello.customview.R;
  */
 public class WaveViewActivity extends AppCompatActivity {
 
+    private static final String TAG = "WaveViewActivity";
+
     private WaveView waveView;
 
     @Override
@@ -20,17 +25,31 @@ public class WaveViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wave_view);
         waveView = findViewById(R.id.waveView);
-    }
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnStart:
-                waveView.start();
-                break;
-            case R.id.btnStop:
-                waveView.stop();
-                break;
-        }
+        final AppCompatSeekBar seekBarWidth = findViewById(R.id.seekBarWidth);
+        seekBarWidth.setMax(100);
+        seekBarWidth.setOnSeekBarChangeListener(new OnSeekBarChangeSimpleListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float width = (progress / 100.0f) * 1.0f;
+                waveView.setWaveScaleWidth(width);
+                Log.e(TAG, "width: " + width);
+            }
+        });
+        seekBarWidth.setProgress(30);
+
+        final AppCompatSeekBar seekBarHeight = findViewById(R.id.seekBarHeight);
+        seekBarHeight.setMax(100);
+        seekBarHeight.setOnSeekBarChangeListener(new OnSeekBarChangeSimpleListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float height = (progress / 100.0f) * 0.1f;
+                waveView.setWaveScaleHeight(height);
+                Log.e(TAG, "height: " + height);
+            }
+        });
+        seekBarHeight.setProgress(30);
+
     }
 
 }

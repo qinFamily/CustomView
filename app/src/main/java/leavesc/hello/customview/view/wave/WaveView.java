@@ -146,8 +146,14 @@ public class WaveView extends BaseView {
     }
 
     public void setWaveScaleWidth(float waveScaleWidth) {
+        if (waveScaleWidth <= 0 || waveScaleWidth > 1) {
+            return;
+        }
         this.waveScaleWidth = waveScaleWidth;
         waveWidth = getResources().getDisplayMetrics().widthPixels * waveScaleWidth;
+        if (valueAnimator != null) {
+            valueAnimator.setFloatValues(0, waveWidth);
+        }
     }
 
     public float getWaveScaleWidth() {
@@ -155,6 +161,9 @@ public class WaveView extends BaseView {
     }
 
     public void setWaveScaleHeight(float waveScaleHeight) {
+        if (waveScaleWidth <= 0 || waveScaleWidth > 1) {
+            return;
+        }
         this.waveScaleHeight = waveScaleHeight;
         waveHeight = getResources().getDisplayMetrics().heightPixels * waveScaleHeight;
     }
