@@ -32,6 +32,9 @@
         <activity
             android:name=".view.rain.RainViewActivity"
             android:screenOrientation="behind" />
+        <activity
+            android:name=".view.wave.WaveViewActivity"
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

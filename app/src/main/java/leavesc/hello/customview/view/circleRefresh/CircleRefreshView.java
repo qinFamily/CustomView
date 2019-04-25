@@ -8,20 +8,19 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import leavesc.hello.customview.utils.ViewUtils;
+import leavesc.hello.customview.view.BaseView;
 
 /**
  * 作者：leavesC
  * 时间：2019/4/23 16:40
  * 描述：
  */
-public class CircleRefreshView extends View {
+public class CircleRefreshView extends BaseView {
 
     private static final String TAG = "CircleRefreshView";
 
@@ -245,7 +244,6 @@ public class CircleRefreshView extends View {
                 }
                 break;
             }
-
         }
         Circle circle = circleList.get(index);
         circle.radius = radius;
@@ -265,26 +263,6 @@ public class CircleRefreshView extends View {
         int width = getSize(widthMeasureSpec, dp2px(DEFAULT_WIDTH));
         int height = getSize(heightMeasureSpec, dp2px(DEFAULT_HEIGHT));
         setMeasuredDimension(width, height);
-    }
-
-    private int getSize(int measureSpec, int defaultSize) {
-        int mode = MeasureSpec.getMode(measureSpec);
-        int size = 0;
-        switch (mode) {
-            case MeasureSpec.AT_MOST: {
-                size = Math.min(MeasureSpec.getSize(measureSpec), defaultSize);
-                break;
-            }
-            case MeasureSpec.EXACTLY: {
-                size = MeasureSpec.getSize(measureSpec);
-                break;
-            }
-            case MeasureSpec.UNSPECIFIED: {
-                size = defaultSize;
-                break;
-            }
-        }
-        return size;
     }
 
     @Override
@@ -359,10 +337,6 @@ public class CircleRefreshView extends View {
 
     public long getSpeed() {
         return speed;
-    }
-
-    private int dp2px(float dpValue) {
-        return ViewUtils.dp2px(getContext(), dpValue);
     }
 
 }

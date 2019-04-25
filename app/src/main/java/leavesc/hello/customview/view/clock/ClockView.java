@@ -19,6 +19,8 @@ import android.view.View;
 import java.lang.ref.WeakReference;
 import java.util.TimeZone;
 
+import leavesc.hello.customview.view.BaseView;
+
 /**
  * 作者：leavesC
  * 时间：2019/4/10 23:05
@@ -26,7 +28,7 @@ import java.util.TimeZone;
  * GitHub：https://github.com/leavesC
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
-public class ClockView extends View {
+public class ClockView extends BaseView {
 
     private static final String TAG = "ClockView";
 
