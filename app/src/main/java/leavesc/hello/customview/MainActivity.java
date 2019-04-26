@@ -9,6 +9,7 @@ import leavesc.hello.customview.view.circleRefresh.CircleRefreshViewActivity;
 import leavesc.hello.customview.view.clock.ClockViewActivity;
 import leavesc.hello.customview.view.percentage.PercentageViewActivity;
 import leavesc.hello.customview.view.rain.RainViewActivity;
+import leavesc.hello.customview.view.taiji.TaiJiViewActivity;
 import leavesc.hello.customview.view.wave.WaveViewActivity;
 
 /**
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        startActivity(WaveViewActivity.class);
+        startActivity(TaiJiViewActivity.class);
     }
 
     private void startActivity(Class clazz) {
@@ -49,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void startWaveViewActivity(View view) {
         startActivity(WaveViewActivity.class);
+    }
+
+    public void startTaiJiViewActivity(View view) {
+        startActivity(TaiJiViewActivity.class);
     }
 
 }

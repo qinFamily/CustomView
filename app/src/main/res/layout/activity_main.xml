@@ -42,4 +42,11 @@
         android:text="波浪View"
         android:textAllCaps="false" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startTaiJiViewActivity"
+        android:text="太极View"
+        android:textAllCaps="false" />
+
 </LinearLayout>
