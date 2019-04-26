@@ -7,8 +7,8 @@
     tools:context=".view.taiji.TaiJiViewActivity">
 
     <leavesc.hello.customview.view.taiji.TaiJiView
+        android:id="@+id/taiJiView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#abc" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

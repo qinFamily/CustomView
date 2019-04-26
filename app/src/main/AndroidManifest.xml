@@ -35,7 +35,9 @@
         <activity
             android:name=".view.wave.WaveViewActivity"
             android:screenOrientation="behind" />
-        <activity android:name=".view.taiji.TaiJiViewActivity"></activity>
+        <activity
+            android:name=".view.taiji.TaiJiViewActivity"
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

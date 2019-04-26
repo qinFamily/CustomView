@@ -52,12 +52,16 @@ public class TaiJiView extends BaseView {
 
     private float centerY;
 
-    private float strokeWidth = 4.0f;
+    private float degrees;
 
     @Override
     protected void onSizeChanged(int w, int h, int oldW, int oldH) {
-        float temp = w / 2f;
-        radius = centerX = centerY = temp;
+        w = w - getPaddingLeft() - getPaddingRight();
+        h = h - getPaddingTop() - getPaddingBottom();
+        w = Math.min(w, h);
+        radius = w / 2f;
+        centerX = getPaddingLeft() + radius;
+        centerY = getPaddingTop() + radius;
     }
 
     private RectF rectF = new RectF();
@@ -69,12 +73,13 @@ public class TaiJiView extends BaseView {
         float temp1 = realRadius / 2f;
         float temp2 = temp1 / 8f;
 
-        canvas.translate(radius, radius);
+        canvas.translate(centerX, centerY);
+        canvas.rotate(degrees);
 
         //绘制边框
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(2);
+        paint.setStrokeWidth(0.4f);
         canvas.drawCircle(0, 0, realRadius, paint);
 
         //绘制左右半圆
@@ -107,6 +112,15 @@ public class TaiJiView extends BaseView {
         paint.setColor(Color.WHITE);
         canvas.drawCircle(0, 0, temp2, paint);
         canvas.restore();
+    }
+
+    public float getDegrees() {
+        return degrees;
+    }
+
+    public void setDegrees(float degrees) {
+        this.degrees = degrees;
+        postInvalidate();
     }
 
 }
