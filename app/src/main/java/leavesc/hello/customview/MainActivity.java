@@ -11,6 +11,7 @@ import leavesc.hello.customview.view.percentage.PercentageViewActivity;
 import leavesc.hello.customview.view.rain.RainViewActivity;
 import leavesc.hello.customview.view.taiji.TaiJiViewActivity;
 import leavesc.hello.customview.view.wave.WaveViewActivity;
+import leavesc.hello.customview.view.waveLoading.WaveLoadingViewActivity;
 
 /**
  * 作者：leavesC
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        startActivity(TaiJiViewActivity.class);
+        startActivity(WaveLoadingViewActivity.class);
     }
 
     private void startActivity(Class clazz) {
