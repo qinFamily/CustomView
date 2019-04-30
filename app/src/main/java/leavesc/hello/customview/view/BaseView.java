@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import leavesc.hello.customview.utils.ViewUtils;
+import leavesc.hello.customview.utils.DisplayUtils;
 
 /**
  * 作者：leavesC
@@ -47,7 +47,11 @@ public class BaseView extends View {
     }
 
     protected int dp2px(float dpValue) {
-        return ViewUtils.dp2px(getContext(), dpValue);
+        return DisplayUtils.dp2px(getContext(), dpValue);
+    }
+
+    protected int sp2px(float spValue) {
+        return DisplayUtils.sp2px(getContext(), spValue);
     }
 
 }

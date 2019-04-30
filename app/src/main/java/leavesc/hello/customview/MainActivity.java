@@ -57,4 +57,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(TaiJiViewActivity.class);
     }
 
+    public void startWaveLoadingViewActivity(View view) {
+        startActivity(WaveLoadingViewActivity.class);
+    }
+
 }

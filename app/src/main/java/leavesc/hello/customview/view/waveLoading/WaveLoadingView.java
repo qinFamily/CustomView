@@ -2,6 +2,7 @@ package leavesc.hello.customview.view.waveLoading;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,11 +10,14 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import leavesc.hello.customview.R;
 import leavesc.hello.customview.view.BaseView;
 
 /**
@@ -33,21 +37,30 @@ public class WaveLoadingView extends BaseView {
     //每个波浪的高度占据View高度的默认比例
     private static final float DEFAULT_WAVE_SCALE_HEIGHT = 0.13f;
 
-    //波浪的默认速度
-    private static final long DEFAULT_SPEED = 900;
+    //波浪的默认颜色
+    private static final int DEFAULT_WAVE_COLOR = Color.parseColor("#f54183");
 
-    //默认大小，dp
+    //文本下方的默认颜色
+    private static final int DEFAULT_DOWN_TEXT_COLOR = Color.WHITE;
+
+    //默认文本大小，sp
+    private static final int DEFAULT_TEXT_SIZE = 150;
+
+    //波浪的默认速度
+    private static final int DEFAULT_SPEED = 900;
+
+    //View的默认大小，dp
     private static final int DEFAULT_SIZE = 220;
 
     private float waveScaleWidth;
 
     private float waveScaleHeight;
 
-    private Paint wavePaint;
+    @ColorInt
+    private int waveColor;
 
-    private Paint textPaint;
-
-    private int size;
+    @ColorInt
+    private int downTextColor;
 
     //每个波浪的起伏高度
     private float waveHeight;
@@ -58,19 +71,19 @@ public class WaveLoadingView extends BaseView {
     //波浪的速度
     private long speed = DEFAULT_SPEED;
 
+    private float textSize;
+
+    private char text;
+
+    private Paint wavePaint;
+
+    private Paint textPaint;
+
+    private int size;
+
     private float animatedValue;
 
     private ValueAnimator valueAnimator;
-
-    @ColorInt
-    private int waveColor = Color.parseColor("#f54183");
-
-    @ColorInt
-    private int downTextColor = Color.parseColor("#ffffff");
-
-    private int textSize = 220;
-
-    private char text = '叶';
 
     public WaveLoadingView(Context context) {
         this(context, null);
@@ -82,10 +95,25 @@ public class WaveLoadingView extends BaseView {
 
     public WaveLoadingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initAttributeSet(context, attrs);
         initPaint();
         initAnimation();
-        setWaveScaleWidth(DEFAULT_WAVE_SCALE_WIDTH);
-        setWaveScaleHeight(DEFAULT_WAVE_SCALE_HEIGHT);
+        resetWaveParams();
+    }
+
+    private void initAttributeSet(Context context, @Nullable AttributeSet attrs) {
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.WaveLoadingView);
+        waveScaleWidth = array.getFloat(R.styleable.WaveLoadingView_scaleWidth, DEFAULT_WAVE_SCALE_WIDTH);
+        waveScaleHeight = array.getFloat(R.styleable.WaveLoadingView_scaleHeight, DEFAULT_WAVE_SCALE_HEIGHT);
+        waveColor = array.getColor(R.styleable.WaveLoadingView_waveColor, DEFAULT_WAVE_COLOR);
+        downTextColor = array.getColor(R.styleable.WaveLoadingView_downTextColor, DEFAULT_DOWN_TEXT_COLOR);
+        textSize = array.getDimension(R.styleable.WaveLoadingView_textSize, sp2px(DEFAULT_TEXT_SIZE));
+        speed = array.getInteger(R.styleable.WaveLoadingView_speed, DEFAULT_SPEED);
+        String centerText = array.getString(R.styleable.WaveLoadingView_centerText);
+        if (centerText != null && centerText.length() > 0) {
+            text = centerText.charAt(0);
+        }
+        array.recycle();
     }
 
     private void initPaint() {
@@ -133,8 +161,8 @@ public class WaveLoadingView extends BaseView {
         size = Math.min(w, h);
 
         radius = size / 2f;
-        centerX = getPaddingLeft() + radius;
-        centerY = getPaddingTop() + radius;
+        centerX = radius;
+        centerY = radius;
 
         resetWaveParams();
 
@@ -150,7 +178,6 @@ public class WaveLoadingView extends BaseView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         textPaint.setColor(waveColor);
         drawText(canvas, textPaint, String.valueOf(text));
 
@@ -165,7 +192,7 @@ public class WaveLoadingView extends BaseView {
         wavePath.close();
 
         circlePath.reset();
-        circlePath.addCircle(centerX, centerY, radius, Path.Direction.CCW);
+        circlePath.addCircle(centerX, centerY, radius - 1, Path.Direction.CCW);
         circlePath.op(wavePath, Path.Op.INTERSECT);
 
         canvas.drawPath(circlePath, wavePaint);
@@ -195,22 +222,41 @@ public class WaveLoadingView extends BaseView {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         start();
+        Log.e(TAG, "onAttachedToWindow: ");
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         stop();
+        Log.e(TAG, "onDetachedFromWindow: ");
+    }
+
+    @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        switch (visibility) {
+            case View.VISIBLE: {
+                start();
+                break;
+            }
+            case View.INVISIBLE:
+            case View.GONE: {
+                stop();
+                break;
+            }
+        }
+        Log.e(TAG, "onVisibilityChanged: " + visibility);
     }
 
     public void start() {
-        if (!valueAnimator.isRunning()) {
+        if (valueAnimator != null && !valueAnimator.isRunning()) {
             valueAnimator.start();
         }
     }
 
     public void stop() {
-        if (valueAnimator.isRunning()) {
+        if (valueAnimator != null && valueAnimator.isRunning()) {
             valueAnimator.cancel();
         }
     }
@@ -255,6 +301,10 @@ public class WaveLoadingView extends BaseView {
             valueAnimator.setFloatValues(0, waveWidth);
             valueAnimator.setDuration(speed);
         }
+    }
+
+    public void setText(char text) {
+        this.text = text;
     }
 
 }

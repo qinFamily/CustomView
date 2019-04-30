@@ -12,6 +12,9 @@
 ## **Apk下载地址：[CustomView](https://www.pgyer.com/CustomView)**
 
 
+![WaveLoadingView](screenshot/WaveLoadingView.gif)
+
+
 ![太极](screenshot/TaiJiView.gif)
 
 
