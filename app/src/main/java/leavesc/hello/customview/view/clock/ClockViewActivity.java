@@ -23,14 +23,11 @@ public class ClockViewActivity extends AppCompatActivity {
 
     private ClockView clockView;
 
-    private TextView tv1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clock_view);
         clockView = findViewById(R.id.clockView);
-        tv1 = findViewById(R.id.tv1);
 
         AppCompatSeekBar seekBar1 = findViewById(R.id.seekBar1);
         seekBar1.setMax(100);
@@ -58,17 +55,6 @@ public class ClockViewActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 clockView.setClockTextSize(progress);
-            }
-        });
-
-        AppCompatSeekBar seekBar4 = findViewById(R.id.seekBar4);
-        seekBar4.setMax(100);
-        seekBar4.setOnSeekBarChangeListener(new OnSeekBarChangeSimpleListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) tv1.getLayoutParams();
-                layoutParams.weight = progress * 0.05f;
-                tv1.setLayoutParams(layoutParams);
             }
         });
     }

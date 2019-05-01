@@ -109,15 +109,11 @@ public class WaveView extends BaseView {
         resetWaveParams();
     }
 
+    private Path path = new Path();
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawWave(canvas);
-    }
-
-    private Path path = new Path();
-
-    private void drawWave(Canvas canvas) {
         path.reset();
         path.moveTo(-waveWidth + animatedValue, contentHeight / 2);
         for (float i = -waveWidth; i < contentWidth + waveWidth; i += waveWidth) {

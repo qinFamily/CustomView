@@ -6,25 +6,11 @@
     android:orientation="vertical"
     tools:context=".view.clock.ClockViewActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <leavesc.hello.customview.view.clock.ClockView
+        android:id="@+id/clockView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <leavesc.hello.customview.view.clock.ClockView
-            android:id="@+id/clockView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/tv1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text=" " />
-
-    </LinearLayout>
+        android:layout_margin="20dp" />
 
     <android.support.v7.widget.AppCompatSeekBar
         android:id="@+id/seekBar1"
@@ -43,12 +29,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp" />
-
-    <android.support.v7.widget.AppCompatSeekBar
-        android:id="@+id/seekBar4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp" />
-
 
 </LinearLayout>

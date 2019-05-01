@@ -10,6 +10,27 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="startWaveLoadingViewActivity"
+        android:text="WaveLoadingView"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startWaveViewActivity"
+        android:text="波浪View"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startCircleRefreshViewActivity"
+        android:text="仿QQ邮箱下拉刷新View"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:onClick="startClockActivity"
         android:text="时钟View"
         android:textAllCaps="false" />
@@ -24,13 +45,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="startCircleRefreshViewActivity"
-        android:text="仿QQ邮箱下拉刷新View"
-        android:textAllCaps="false" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:onClick="startRainViewActivity"
         android:text="下雨View"
         android:textAllCaps="false" />
@@ -38,22 +52,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="startWaveViewActivity"
-        android:text="波浪View"
-        android:textAllCaps="false" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:onClick="startTaiJiViewActivity"
         android:text="太极View"
-        android:textAllCaps="false" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="startWaveLoadingViewActivity"
-        android:text="WaveLoadingView"
         android:textAllCaps="false" />
 
 </LinearLayout>

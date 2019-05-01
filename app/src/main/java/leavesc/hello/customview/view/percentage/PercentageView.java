@@ -6,9 +6,10 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 
 import java.util.List;
+
+import leavesc.hello.customview.view.BaseView;
 
 /**
  * 作者：leavesC
@@ -17,13 +18,14 @@ import java.util.List;
  * GitHub：https://github.com/leavesC
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
-public class PercentageView extends View {
+public class PercentageView extends BaseView {
 
     private static final String TAG = "PercentageView";
 
     private static final int[] COLORS = {0xff2f7e76, 0xff1ff749, 0xfff42872, 0xff4643f4, 0xe51581da, 0xff8527e4, 0xfff1b00d, 0xff26020f};
 
-    private static final int DEFAULT_SIZE = 400;
+    //View的默认大小，dp
+    private static final int DEFAULT_SIZE = 320;
 
     private float startAngle;
 
@@ -48,28 +50,17 @@ public class PercentageView extends View {
         paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
+        paint.setDither(true);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = getDefaultSize(widthMeasureSpec);
-        int height = getDefaultSize(heightMeasureSpec);
+        int defaultSize = dp2px(DEFAULT_SIZE);
+        int width = getSize(widthMeasureSpec, defaultSize);
+        int height = getSize(heightMeasureSpec, defaultSize);
         width = height = Math.min(width, height);
         setMeasuredDimension(width, height);
         Log.e(TAG, "onMeasure");
-    }
-
-    private int getDefaultSize(int measureSpec) {
-        switch (MeasureSpec.getMode(measureSpec)) {
-            case MeasureSpec.AT_MOST:
-            case MeasureSpec.EXACTLY: {
-                return MeasureSpec.getSize(measureSpec);
-            }
-            case MeasureSpec.UNSPECIFIED:
-            default: {
-                return PercentageView.DEFAULT_SIZE;
-            }
-        }
     }
 
     @Override

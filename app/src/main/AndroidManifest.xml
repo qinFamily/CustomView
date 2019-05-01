@@ -38,7 +38,9 @@
         <activity
             android:name=".view.taiji.TaiJiViewActivity"
             android:screenOrientation="behind" />
-        <activity android:name=".view.waveLoading.WaveLoadingViewActivity"></activity>
+        <activity
+            android:name=".view.waveLoading.WaveLoadingViewActivity"
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

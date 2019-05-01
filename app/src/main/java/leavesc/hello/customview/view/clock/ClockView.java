@@ -64,7 +64,7 @@ public class ClockView extends BaseView {
                 case MSG_INVALIDATE: {
                     Log.e(TAG, "定时任务被触发...");
                     ClockView view = clockViewWeakReference.get();
-                    if (view != null && view.isVisible) {
+                    if (view != null) {
                         view.onTimeChanged();
                         view.invalidate();
                         sendEmptyMessageDelayed(MSG_INVALIDATE, 1000);
@@ -79,7 +79,8 @@ public class ClockView extends BaseView {
 
     private Paint textPaint;
 
-    private static final int DEFAULT_SIZE = 400;
+    //View的默认大小，dp
+    private static final int DEFAULT_SIZE = 320;
 
     //表盘边缘颜色
     private int aroundColor = Color.parseColor("#083476");
@@ -89,9 +90,6 @@ public class ClockView extends BaseView {
 
     //表盘边缘线的宽度
     private int aroundStockWidth = 12;
-
-    //字体宽度
-    private int textStockWidth = 12;
 
     //字体大小
     private int textSize = 28;
@@ -106,7 +104,7 @@ public class ClockView extends BaseView {
 
     private TimerHandler timerHandler;
 
-    private volatile boolean isVisible;
+    private Rect rect = new Rect();
 
     public ClockView(Context context) {
         this(context, null);
@@ -128,6 +126,7 @@ public class ClockView extends BaseView {
         clockPaint = new Paint();
         clockPaint.setStyle(Paint.Style.STROKE);
         clockPaint.setAntiAlias(true);
+        clockPaint.setDither(true);
         clockPaint.setStrokeWidth(aroundStockWidth);
     }
 
@@ -135,73 +134,61 @@ public class ClockView extends BaseView {
         textPaint = new Paint();
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setAntiAlias(true);
-        textPaint.setStrokeWidth(textStockWidth);
+        textPaint.setDither(true);
+        textPaint.setStrokeWidth(12);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setTextSize(textSize);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int widthSize = getSize(widthMeasureSpec);
-        int heightSize = getSize(heightMeasureSpec);
+        int defaultSize = dp2px(DEFAULT_SIZE);
+        int widthSize = getSize(widthMeasureSpec, defaultSize);
+        int heightSize = getSize(heightMeasureSpec, defaultSize);
         widthSize = heightSize = Math.min(widthSize, heightSize);
         setMeasuredDimension(widthSize, heightSize);
-    }
-
-    private int getSize(int measureSpec) {
-        switch (MeasureSpec.getMode(measureSpec)) {
-            case MeasureSpec.AT_MOST:
-            case MeasureSpec.EXACTLY: {
-                return MeasureSpec.getSize(measureSpec);
-            }
-            case MeasureSpec.UNSPECIFIED:
-            default: {
-                return ClockView.DEFAULT_SIZE;
-            }
-        }
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        Log.e(TAG, "onAttachedToWindow");
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-        getContext().registerReceiver(timerBroadcast, filter);
-        isVisible = true;
-        startTimer();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.e(TAG, "onDetachedFromWindow");
-        getContext().unregisterReceiver(timerBroadcast);
         stopTimer();
+        unregisterTimezoneAction();
     }
 
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
-        Log.e(TAG, "onVisibilityChanged");
+        Log.e(TAG, "onVisibilityChanged visibility: " + visibility);
         if (visibility == View.VISIBLE) {
+            registerTimezoneAction();
             startTimer();
         } else {
             stopTimer();
+            unregisterTimezoneAction();
         }
     }
 
     private void startTimer() {
         Log.e(TAG, "startTimer 开启定时任务");
-        isVisible = true;
         timerHandler.removeMessages(MSG_INVALIDATE);
         timerHandler.sendEmptyMessage(MSG_INVALIDATE);
     }
 
     private void stopTimer() {
         Log.e(TAG, "stopTimer 停止定时任务");
-        isVisible = false;
         timerHandler.removeMessages(MSG_INVALIDATE);
+    }
+
+    private void registerTimezoneAction() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+        getContext().registerReceiver(timerBroadcast, filter);
+    }
+
+    private void unregisterTimezoneAction() {
+        getContext().unregisterReceiver(timerBroadcast);
     }
 
     private void onTimeChanged() {
@@ -295,8 +282,6 @@ public class ClockView extends BaseView {
         canvas.drawCircle(0, 0, radiusIn / 20.0f, clockPaint);
     }
 
-    private Rect rect = new Rect();
-
     public void setAroundColor(int aroundColor) {
         this.aroundColor = aroundColor;
         invalidate();
@@ -309,11 +294,6 @@ public class ClockView extends BaseView {
 
     public void setAroundStockWidth(int aroundStockWidth) {
         this.aroundStockWidth = aroundStockWidth;
-        invalidate();
-    }
-
-    public void setTextStockWidth(int textStockWidth) {
-        this.textStockWidth = textStockWidth;
         invalidate();
     }
 
