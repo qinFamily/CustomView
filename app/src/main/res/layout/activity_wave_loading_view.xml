@@ -26,4 +26,15 @@
         app:textSize="150sp"
         app:waveColor="@color/colorPrimary" />
 
+    <leavesc.hello.customview.view.waveLoading.WaveLoadingView
+        android:id="@+id/waveView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/waveView2"
+        app:centerText="叶"
+        app:scaleWidth="0.7"
+        app:speed="600"
+        app:textSize="150sp"
+        app:waveColor="#50a4f7" />
+
 </RelativeLayout>

@@ -1,5 +1,11 @@
 apply plugin: 'com.android.application'
 
+def keyStorePath_ = keyStorePath
+def storePassword_ = storePassword
+def keyAlias_ = keyAlias
+def keyPassword_ = keyPassword
+def storeFile_ = file(keyStorePath_)
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -10,10 +16,38 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    signingConfigs {
+        debug {
+            storeFile storeFile_
+            storePassword storePassword_
+            keyAlias keyAlias_
+            keyPassword keyPassword_
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
         release {
+            storeFile storeFile_
+            storePassword storePassword_
+            keyAlias keyAlias_
+            keyPassword keyPassword_
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+    buildTypes {
+        debug {
             minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
