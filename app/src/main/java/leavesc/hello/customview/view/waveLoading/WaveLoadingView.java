@@ -29,8 +29,6 @@ import leavesc.hello.customview.view.BaseView;
  */
 public class WaveLoadingView extends BaseView {
 
-    private static final String TAG = "WaveLoadingView";
-
     //每个波浪的宽度占据View宽度的默认比例
     private static final float DEFAULT_WAVE_SCALE_WIDTH = 0.8f;
 
@@ -132,7 +130,7 @@ public class WaveLoadingView extends BaseView {
         textPaint.setTextSize(textSize);
     }
 
-    public void initAnimation() {
+    private void initAnimation() {
         valueAnimator = new ValueAnimator();
         valueAnimator.setDuration(speed);
         valueAnimator.setRepeatCount(ValueAnimator.INFINITE);

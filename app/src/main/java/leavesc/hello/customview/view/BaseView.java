@@ -14,6 +14,8 @@ import leavesc.hello.customview.utils.DisplayUtils;
  */
 public class BaseView extends View {
 
+    protected final String TAG = getClass().getSimpleName();
+
     public BaseView(Context context) {
         super(context, null);
     }

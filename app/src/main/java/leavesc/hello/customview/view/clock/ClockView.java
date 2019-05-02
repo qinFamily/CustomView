@@ -30,8 +30,6 @@ import leavesc.hello.customview.view.BaseView;
  */
 public class ClockView extends BaseView {
 
-    private static final String TAG = "ClockView";
-
     private final BroadcastReceiver timerBroadcast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -62,7 +60,6 @@ public class ClockView extends BaseView {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_INVALIDATE: {
-                    Log.e(TAG, "定时任务被触发...");
                     ClockView view = clockViewWeakReference.get();
                     if (view != null) {
                         view.onTimeChanged();

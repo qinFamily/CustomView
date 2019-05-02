@@ -8,6 +8,7 @@ import android.view.View;
 import leavesc.hello.customview.view.circleRefresh.CircleRefreshViewActivity;
 import leavesc.hello.customview.view.clock.ClockViewActivity;
 import leavesc.hello.customview.view.percentage.PercentageViewActivity;
+import leavesc.hello.customview.view.pointBeat.PointBeatViewActivity;
 import leavesc.hello.customview.view.rain.RainViewActivity;
 import leavesc.hello.customview.view.taiji.TaiJiViewActivity;
 import leavesc.hello.customview.view.wave.WaveViewActivity;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        startActivity(WaveLoadingViewActivity.class);
+//        startActivity(PointBeatViewActivity.class);
     }
 
     private void startActivity(Class clazz) {
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void startWaveLoadingViewActivity(View view) {
         startActivity(WaveLoadingViewActivity.class);
+    }
+
+    public void startPointBeatViewActivity(View view) {
+        startActivity(PointBeatViewActivity.class);
     }
 
 }

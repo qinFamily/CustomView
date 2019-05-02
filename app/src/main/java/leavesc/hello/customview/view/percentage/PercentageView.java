@@ -20,8 +20,6 @@ import leavesc.hello.customview.view.BaseView;
  */
 public class PercentageView extends BaseView {
 
-    private static final String TAG = "PercentageView";
-
     private static final int[] COLORS = {0xff2f7e76, 0xff1ff749, 0xfff42872, 0xff4643f4, 0xe51581da, 0xff8527e4, 0xfff1b00d, 0xff26020f};
 
     //View的默认大小，dp

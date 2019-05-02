@@ -22,8 +22,6 @@ import leavesc.hello.customview.view.BaseView;
  */
 public class CircleRefreshView extends BaseView {
 
-    private static final String TAG = "CircleRefreshView";
-
     private final static class Circle {
 
         private float x;

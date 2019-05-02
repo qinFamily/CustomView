@@ -20,8 +20,6 @@ import leavesc.hello.customview.view.BaseView;
  */
 public class WaveView extends BaseView {
 
-    private static final String TAG = "WaveView";
-
     //每个波浪的宽度占据View宽度的默认比例
     private static final float DEFAULT_WAVE_SCALE_WIDTH = 0.5f;
 

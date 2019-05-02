@@ -41,6 +41,9 @@
         <activity
             android:name=".view.waveLoading.WaveLoadingViewActivity"
             android:screenOrientation="behind" />
+        <activity
+            android:name=".view.pointBeat.PointBeatViewActivity"
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

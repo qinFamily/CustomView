@@ -1,6 +1,7 @@
 # CustomView
 
  - 自定义View合辑，持续更新中
+   - 跳跃小球（贝塞尔曲线-3）
    - WaveLoadingView（贝塞尔曲线-2）
    - 波浪（贝塞尔曲线-1）
    - 仿QQ邮箱下拉刷新
@@ -11,6 +12,8 @@
  
 ## **Apk下载地址：[CustomView](https://www.pgyer.com/CustomView)**
 
+
+![跳跃小球](screenshot/PointBeatView.gif)
 
 ![WaveLoadingView](screenshot/WaveLoadingView.gif)
 
