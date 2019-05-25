@@ -67,6 +67,13 @@
             android:text="跳跃小球（贝塞尔曲线-3）"
             android:textAllCaps="false" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startPlanViewActivity"
+            android:text="课程表"
+            android:textAllCaps="false" />
+
     </LinearLayout>
 
 </ScrollView>

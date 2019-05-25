@@ -44,6 +44,9 @@
         <activity
             android:name=".view.pointBeat.PointBeatViewActivity"
             android:screenOrientation="behind" />
+        <activity
+            android:name=".view.plan.PlanViewActivity"
+            android:screenOrientation="behind" />
     </application>
 
 </manifest>

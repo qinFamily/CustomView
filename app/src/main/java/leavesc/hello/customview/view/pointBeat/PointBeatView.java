@@ -104,7 +104,7 @@ public class PointBeatView extends BaseView {
 
         controlPoint.x = ballPoint.x;
 
-        long speed = 1800;
+        long speed = 1500;
         downAnimator.setFloatValues(pointYMin, pointYMax);
         upAnimator.setFloatValues(pointYMax, pointYMin);
         downAnimator.setDuration(speed);

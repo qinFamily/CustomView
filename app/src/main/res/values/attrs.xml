@@ -9,4 +9,9 @@
         <attr name="speed" format="integer" />
         <attr name="centerText" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="PlanView">
+        <attr name="planOffset" format="float" />
+    </declare-styleable>
+
 </resources>

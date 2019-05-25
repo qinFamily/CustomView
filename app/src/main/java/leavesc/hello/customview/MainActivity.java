@@ -8,6 +8,7 @@ import android.view.View;
 import leavesc.hello.customview.view.circleRefresh.CircleRefreshViewActivity;
 import leavesc.hello.customview.view.clock.ClockViewActivity;
 import leavesc.hello.customview.view.percentage.PercentageViewActivity;
+import leavesc.hello.customview.view.plan.PlanViewActivity;
 import leavesc.hello.customview.view.pointBeat.PointBeatViewActivity;
 import leavesc.hello.customview.view.rain.RainViewActivity;
 import leavesc.hello.customview.view.taiji.TaiJiViewActivity;
@@ -64,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void startPointBeatViewActivity(View view) {
         startActivity(PointBeatViewActivity.class);
+    }
+
+    public void startPlanViewActivity(View view) {
+        startActivity(PlanViewActivity.class);
     }
 
 }
