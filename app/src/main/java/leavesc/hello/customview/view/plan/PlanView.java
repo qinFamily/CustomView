@@ -177,7 +177,7 @@ public class PlanView extends View {
         bgPaint.setTextAlign(Paint.Align.CENTER);
         for (String day : DAYS) {
             bgPaint.getTextBounds(day, 0, day.length(), textBounds);
-            float offSet = (textBounds.top + textBounds.bottom) / 2;
+            float offSet = (textBounds.top + textBounds.bottom) >> 1;
             canvas.drawText(day, itemWidth / 2, headerHeight / 2 - offSet, bgPaint);
             canvas.translate(itemWidth, 0);
         }
@@ -187,7 +187,7 @@ public class PlanView extends View {
         for (int i = 0; i < TIMES.length; i++) {
             String time = TIMES[i];
             bgPaint.getTextBounds(time, 0, time.length(), textBounds);
-            float offSet = (textBounds.top + textBounds.bottom) / 2;
+            float offSet = (textBounds.top + textBounds.bottom) >> 1;
             canvas.drawText(time, leftTimeWidth / 2, headerHeight + itemHeight * i - offSet, bgPaint);
         }
 

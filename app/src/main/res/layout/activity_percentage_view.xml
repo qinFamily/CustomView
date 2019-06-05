@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".view.percentage.PercentageViewActivity">
+    android:layout_height="match_parent">
 
-    <leavesc.hello.customview.view.percentage.PercentageView
-        android:id="@+id/percentageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <android.support.v7.widget.AppCompatSeekBar
-        android:id="@+id/seekBar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp" />
+        android:orientation="vertical"
+        tools:context=".view.percentage.PercentageViewActivity">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:onClick="addData"
-        android:text="添加数据" />
+        <leavesc.hello.customview.view.percentage.PercentageView
+            android:id="@+id/percentageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:onClick="removeData"
-        android:text="移除数据" />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp" />
 
-</LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:onClick="addData"
+            android:text="添加数据" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:onClick="removeData"
+            android:text="移除数据" />
+
+    </LinearLayout>
+</ScrollView>

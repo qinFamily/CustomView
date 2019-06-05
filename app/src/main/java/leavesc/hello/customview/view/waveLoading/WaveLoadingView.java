@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -77,7 +77,7 @@ public class WaveLoadingView extends BaseView {
 
     private Paint textPaint;
 
-    private int size;
+    private float size;
 
     private float animatedValue;
 
@@ -182,8 +182,8 @@ public class WaveLoadingView extends BaseView {
         wavePath.reset();
         wavePath.moveTo(-waveWidth + animatedValue, size / 2.2f);
         for (float i = -waveWidth; i < size + waveWidth; i += waveWidth) {
-            wavePath.rQuadTo(waveWidth / 4, -waveHeight, waveWidth / 2, 0);
-            wavePath.rQuadTo(waveWidth / 4, waveHeight, waveWidth / 2, 0);
+            wavePath.rQuadTo(waveWidth / 4f, -waveHeight, waveWidth / 2f, 0);
+            wavePath.rQuadTo(waveWidth / 4f, waveHeight, waveWidth / 2f, 0);
         }
         wavePath.lineTo(size, size);
         wavePath.lineTo(0, size);
@@ -201,12 +201,12 @@ public class WaveLoadingView extends BaseView {
     }
 
     private void drawText(Canvas canvas, Paint textPaint, String text) {
-        Rect rect = new Rect(0, 0, size, size);
+        RectF rect = new RectF(0, 0, size, size);
         textPaint.setTextAlign(Paint.Align.CENTER);
         Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
         float top = fontMetrics.top;
         float bottom = fontMetrics.bottom;
-        int centerY = (int) (rect.centerY() - top / 2 - bottom / 2);
+        float centerY = rect.centerY() - top / 2f - bottom / 2f;
         canvas.drawText(text, rect.centerX(), centerY, textPaint);
     }
 

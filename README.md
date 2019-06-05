@@ -13,20 +13,12 @@
  
 ## **Apk下载地址：[CustomView](https://www.pgyer.com/CustomView)**
 
-![计划表](screenshot/PlanView.gif)
+![计划表](screenshot/PlanView.gif)     
 
-![跳跃小球](screenshot/PointBeatView.gif)
+![带文本的圆形波浪](screenshot/WaveLoadingView.gif)     ![跳跃小球](screenshot/PointBeatView.gif)
 
-![带文本的圆形波浪](screenshot/WaveLoadingView.gif)
+![波浪](screenshot/WaveView.gif)      ![仿QQ邮箱下拉刷新](screenshot/CircleRefreshView.gif)   
 
-![波浪](screenshot/WaveView.gif)
+![饼状图](screenshot/PercentageView.gif)      ![太极](screenshot/TaiJiView.gif)
 
-![仿QQ邮箱下拉刷新](screenshot/CircleRefreshView.gif)
-
-![太极](screenshot/TaiJiView.gif)
-
-![时钟](screenshot/ClockView.gif)
-
-![饼状图](screenshot/PercentageView.gif)
-
-![下雨](screenshot/RainView.gif)
+![下雨](screenshot/RainView.gif)      ![时钟](screenshot/ClockView.gif)
