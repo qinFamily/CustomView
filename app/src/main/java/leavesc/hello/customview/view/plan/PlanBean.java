@@ -15,7 +15,10 @@ public class PlanBean {
     private String planEndTime;
     private String color;
     private int dayIndex;
+
+    //计划的坐标
     private RectF rectF;
+    //文本是否被省略
     private boolean isEllipsis;
 
     public String getPlanId() {

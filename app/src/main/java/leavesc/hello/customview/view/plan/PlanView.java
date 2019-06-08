@@ -216,6 +216,10 @@ public class PlanView extends View {
                             Layout.Alignment.ALIGN_CENTER, 1.1f, 1.1f, true);
                 }
 
+                if (staticLayout.getHeight() > planItemHeight) {
+                    continue;
+                }
+
                 canvas.save();
 
                 canvas.translate(planRectF.left + (itemWidth - staticLayout.getWidth()) / 2, planRectF.top + (planItemHeight - staticLayout.getHeight()) / 2);

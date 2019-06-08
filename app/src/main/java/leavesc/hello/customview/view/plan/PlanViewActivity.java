@@ -55,6 +55,15 @@ public class PlanViewActivity extends BaseActivity {
         bean = new PlanBean();
         bean.setDayIndex(3);
         bean.setPlanId("3");
+        bean.setPlanStartTime("05:20");
+        bean.setPlanEndTime("05:25");
+        bean.setPlanName("晋太元中，武陵人捕鱼为业。缘溪行，忘路之远近。忽逢桃花林，夹岸数百步，中无杂树，芳草鲜美，落英缤纷。渔人甚异之，复前行，欲穷其林");
+        bean.setColor("#F77DA5");
+        planListBeanList.add(bean);
+
+        bean = new PlanBean();
+        bean.setDayIndex(3);
+        bean.setPlanId("3");
         bean.setPlanStartTime("15:20");
         bean.setPlanEndTime("15:52");
         bean.setPlanName("晋太元中，武陵人捕鱼为业。缘溪行，忘路之远近。忽逢桃花林，夹岸数百步，中无杂树，芳草鲜美，落英缤纷。渔人甚异之，复前行，欲穷其林");
